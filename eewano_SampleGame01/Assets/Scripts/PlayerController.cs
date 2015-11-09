@@ -3,8 +3,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	
-	const int MinLane = -5;
-	const int MaxLane = 5;
+	const int MinLane = -4;
+	const int MaxLane = 4;
 	const float LaneWidth = 1.0f;
 
 	CharacterController controller;
