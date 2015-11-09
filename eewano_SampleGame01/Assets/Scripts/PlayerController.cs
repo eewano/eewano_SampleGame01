@@ -16,13 +16,10 @@ public class PlayerController : MonoBehaviour {
 
 		gameOver = false;
 		GetComponent<Collider>().isTrigger = true;
-
-		animator.SetBool ("Left Run", false);
-		animator.SetBool ("Right Run", false);
 	}
 
-	public float nowSpeed = 2.5f;
-	public float speedPlus = 0.2f;
+	public float nowSpeed = 3.0f;
+	public float speedPlus = 0.1f;
 
 	void Update()
 	{
@@ -33,16 +30,23 @@ public class PlayerController : MonoBehaviour {
 
 		nowSpeed += Time.deltaTime * speedPlus;
 
-		float axisValue = Input.GetAxis("Horizontal");
-		transform.Translate(Vector3.right * axisValue * nowSpeed * Time.deltaTime);
-
 		if (Input.GetKey ("left")) {
-				animator.SetBool ("Left Run", true);
+			transform.localPosition = new Vector3(
+				transform.localPosition.x - Time.deltaTime * nowSpeed ,
+				transform.localPosition.y ,
+				transform.localPosition.z );
+
+			animator.SetBool ("Left Run", true);
 		} else {
 			animator.SetBool ("Left Run", false);
 		}
 
 		if (Input.GetKey ("right")) {
+			transform.localPosition = new Vector3(
+				transform.localPosition.x + Time.deltaTime * nowSpeed ,
+				transform.localPosition.y ,
+				transform.localPosition.z );
+			
 			animator.SetBool ("Right Run", true);
 		} else {
 			animator.SetBool ("Right Run", false);
