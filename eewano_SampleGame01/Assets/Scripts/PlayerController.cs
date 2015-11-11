@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
 
 	CharacterController controller;
 	Animator animator;
+	StageSoundEffect stagesoundEffect;
 
 	Vector3 moveDirection = Vector3.zero;
 	int targetLane;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour {
 		//必要なコンポーネントを自動で取得する
 		controller = GetComponent<CharacterController> ();
 		animator = GetComponent<Animator>();
+		stagesoundEffect = GameObject.Find("StageSoundController").GetComponent<StageSoundEffect>();
 	}
 
 	void Update()
@@ -93,6 +95,9 @@ public class PlayerController : MonoBehaviour {
 			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded && targetLane > MinLane)
 			targetLane--;
+
+		//移動サウンドを再生する
+		stagesoundEffect.Move();
 	}
 
 	//右のレーンに移動を開始
@@ -102,6 +107,9 @@ public class PlayerController : MonoBehaviour {
 			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded && targetLane < MaxLane)
 			targetLane++;
+
+		//移動サウンドを再生する
+		stagesoundEffect.Move();
 	}
 
 	public void Jump()
@@ -113,6 +121,9 @@ public class PlayerController : MonoBehaviour {
 
 			//ジャンプトリガーを設定
 			animator.SetTrigger ("Jump");
+
+			//ジャンプサウンドを再生する
+			stagesoundEffect.Jump();
 		}
 	}
 
@@ -129,6 +140,9 @@ public class PlayerController : MonoBehaviour {
 
 			//ダメージトリガーを設定
 			animator.SetTrigger ("Down");
+			
+			//ダウンサウンドを再生する
+			stagesoundEffect.Down();
 		}
 	}
 }
