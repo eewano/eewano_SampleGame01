@@ -6,18 +6,36 @@ public class PlayerController : MonoBehaviour {
 	const int MinLane = -4;
 	const int MaxLane = 4;
 	const float LaneWidth = 1.0f;
+	const int DefaultLife = 1;	//プレイヤーのライフ
+	const float StunDuration = 1.0f;	//被ダメージ時の仰け反り時間
 
 	CharacterController controller;
 	Animator animator;
 
 	Vector3 moveDirection = Vector3.zero;
 	int targetLane;
+	int life = DefaultLife;
+	float recoverTime = 0.0f;
 
 	public float gravity;
 	public float speedZ;
 	public float speedX;
 	public float speedJump;
 	public float accelerationZ;
+
+	//-----ライフ取得用の関数-----
+	public int Life()
+	{
+		return life;
+	}
+	//-----ライフ取得用の関数-----
+
+	//-----仰け反り判定-----
+	public bool IsStan()
+	{
+		return recoverTime > 0.0f || life <= 0;
+	}
+	//-----仰け反り判定-----
 
 	void Start()
 	{
@@ -36,13 +54,22 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown ("space"))
 			Jump ();
 
-		//徐々に加速しZ方向に前進させる
-		float acceleratedZ = moveDirection.z + (accelerationZ * Time.deltaTime);
-		moveDirection.z = Mathf.Clamp (acceleratedZ, 0, speedZ);
+		//-----仰け反り時の行動-----
+		if (IsStan ()) {
+			//動きを止め仰け反り状態からの復帰カウントを進める
+			moveDirection.x = 0.0f;
+			moveDirection.z = 0.0f;
+			recoverTime -= Time.deltaTime;
+		} else {
+			//徐々に加速しZ方向に前進させる
+			float acceleratedZ = moveDirection.z + (accelerationZ * Time.deltaTime);
+			moveDirection.z = Mathf.Clamp (acceleratedZ, 0, speedZ);
 
-		//X方向は目標のポジションまでの差分の割合で速度を計算
-		float ratioX = (targetLane * LaneWidth - transform.position.x) / LaneWidth;
-		moveDirection.x = ratioX * speedX;
+			//X方向は目標のポジションまでの差分の割合で速度を計算
+			float ratioX = (targetLane * LaneWidth - transform.position.x) / LaneWidth;
+			moveDirection.x = ratioX * speedX;
+		}
+		//-----仰け反り時の行動-----
 
 		//重力分の力を毎フレーム追加
 		moveDirection.y -= gravity * Time.deltaTime;
@@ -62,6 +89,8 @@ public class PlayerController : MonoBehaviour {
 	//左のレーンに移動を開始
 	public void MoveToLeft()
 	{
+		if (IsStan ())
+			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded && targetLane > MinLane)
 			targetLane--;
 	}
@@ -69,17 +98,37 @@ public class PlayerController : MonoBehaviour {
 	//右のレーンに移動を開始
 	public void MoveToRight()
 	{
+		if (IsStan ())
+			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded && targetLane < MaxLane)
 			targetLane++;
 	}
 
 	public void Jump()
 	{
+		if (IsStan ())
+			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded) {
 			moveDirection.y = speedJump;
 
 			//ジャンプトリガーを設定
-			animator.SetTrigger ("jump");
+			animator.SetTrigger ("Jump");
+		}
+	}
+
+	//CharacterControllerにコリジョンが生じた時の処理
+	void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+		if (IsStan ())
+			return;
+
+		if (hit.gameObject.tag == "Obstacle") {
+			//ライフを減らして仰け反り状態に移行
+			life--;
+			recoverTime = StunDuration;
+
+			//ダメージトリガーを設定
+			animator.SetTrigger ("Down");
 		}
 	}
 }
