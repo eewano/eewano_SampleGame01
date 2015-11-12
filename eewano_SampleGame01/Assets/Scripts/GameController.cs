@@ -54,8 +54,8 @@ public class GameController : MonoBehaviour {
 		GameIsOver.enabled = true;
 		TapToTitle.enabled = true;
 
-		if (Input.GetMouseButton(0)){
-			Application.LoadLevel("Title");
+		if (Input.GetMouseButtonDown (0)) {
+			Application.LoadLevel ("Title");
 		}
 	}
 }

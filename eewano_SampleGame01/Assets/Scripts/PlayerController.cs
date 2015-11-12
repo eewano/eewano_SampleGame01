@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour {
 	public float speedX;
 	public float speedJump;
 	public float accelerationZ;
+	public float speedPlus;
 
 	//-----ライフ取得用の関数-----
 	public int Life()
@@ -48,6 +49,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Update()
 	{
+		speedZ += Time.deltaTime * speedPlus;
+
 		//デバッグ用
 		if (Input.GetKeyDown ("left"))
 			MoveToLeft ();
