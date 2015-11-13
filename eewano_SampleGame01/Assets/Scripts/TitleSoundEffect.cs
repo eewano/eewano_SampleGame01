@@ -3,14 +3,21 @@ using System.Collections;
 
 public class TitleSoundEffect : MonoBehaviour {
 	
-	public AudioClip StartSound;
-	public AudioClip DescriptionSound;
-	
+	private AudioSource StartSound;
+	private AudioSource DescriptionSound;
+
+	void Start()
+	{
+		AudioSource[] audioSources = GetComponents<AudioSource> ();
+		StartSound = audioSources [0];
+		DescriptionSound = audioSources [1];
+	}
+
 	public void GameStart() {
-		GetComponent<AudioSource>().PlayOneShot(StartSound);
+		StartSound.PlayOneShot (StartSound.clip);
 	}
 
 	public void Description() {
-		GetComponent<AudioSource>().PlayOneShot(DescriptionSound);
+		DescriptionSound.PlayOneShot (DescriptionSound.clip);
 	}
 }

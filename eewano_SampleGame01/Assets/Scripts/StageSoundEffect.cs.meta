@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: 54fba5e6e8341cd45ae3d693b58c231c
-timeCreated: 1447257707
+timeCreated: 1447382299
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - JumpSound: {fileID: 8300000, guid: 993b0277ee5357c48a7e12a7e4b4cb45, type: 3}
+  - MoveSound: {fileID: 8300000, guid: a2b95c85009c9ed478ea381178201945, type: 3}
+  - DownSound: {fileID: 8300000, guid: 5672982e4af13694f85fe0682cde8546, type: 3}
+  - GameOverBGM: {fileID: 8300000, guid: 1a750b10aaf4d614c9b71ae7ffe6924f, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour {
 		stagesoundEffect.Move();
 	}
 
+	//ジャンプ
 	public void Jump()
 	{
 		if (IsStan ())
