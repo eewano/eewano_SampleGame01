@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
 
 	public void Start()
 	{
+		//設定したサウンドを読み込む
 		stagesoundEffect = GameObject.Find("StageSoundController").
 			GetComponent<StageSoundEffect>();
 		//GameOverの文字を非表示
@@ -35,8 +36,8 @@ public class GameController : MonoBehaviour {
 				PlayerPrefs.SetInt ("Hiscore", score);
 			}
 
-			//0.5秒後にゲームオーバーとする
-			Invoke ("GameOver", 0.5f);
+			//0.5秒後にゲームオーバーになる
+			Invoke("ReturnToTitle", 0.5f);
 		}
 	}
 	
@@ -46,9 +47,9 @@ public class GameController : MonoBehaviour {
 		return(int)player.transform.position.z;
 	}
 
-	void GameOver()
+	void ReturnToTitle()
 	{
-		//スタートサウンドを再生する
+		//ステージBGMを停止しゲームオーバーBGMを再生する
 		stagesoundEffect.GameOver ();
 		//ゲームオーバー画面を表示する	
 		GameIsOver.enabled = true;
