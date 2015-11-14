@@ -31,7 +31,8 @@ public class StageSoundEffect : MonoBehaviour {
 		DownSound.PlayOneShot (DownSound.clip);
 	}
 
-	public void GameOver() {
+	public void GameIsOver() {
+		//ステージ01サウンドを停止してゲームオーバーBGMを開始する
 		Destroy(Stage01BGM);
 		GameOverBGM.PlayOneShot (GameOverBGM.clip);
 	}

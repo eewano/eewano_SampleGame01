@@ -27,7 +27,7 @@ public class AreaGenerator : MonoBehaviour {
 
 	void Update()
 	{
-		//キャラクターの位置から現在のエリアチップのインデックスを計算
+		//キャラクターの位置から現在のエリアチップのインデックスを計算する
 		int charaPositionIndex = (int)(character.position.z / AreaTipSize);
 
 		//次のエリアチップに入ったらエリアの更新処理を行なう
@@ -50,14 +50,14 @@ public class AreaGenerator : MonoBehaviour {
 			generatedAreaList.Add (areaObject);
 		}
 
-		//エリア保持上限内になるまで古いエリアを削除
+		//エリア保持上限内になるまで古いエリアを削除する
 		while (generatedAreaList.Count > preInstantiate + 2)
 			DestroyOldestArea ();
 
 		currentTipIndex = toTipIndex;
 	}
 
-	//指定のインデックス位置にAreaオブジェクトをランダムに生成
+	//指定のインデックス位置にAreaオブジェクトをランダムに生成する
 	GameObject GenerateArea(int tipIndex)
 	{
 		int nextAreaTip = Random.Range (0, areaTips.Length);
@@ -71,7 +71,7 @@ public class AreaGenerator : MonoBehaviour {
 		return areaObject;
 	}
 
-	//一番古いエリアを削除
+	//一番古いエリアを削除する
 	void DestroyOldestArea()
 	{
 		GameObject oldArea = generatedAreaList [0];

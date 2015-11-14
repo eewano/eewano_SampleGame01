@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		speedZ += Time.deltaTime * speedPlus;
 
-		//デバッグ用
+		//キーボードで動作させる
 		if (Input.GetKeyDown ("left"))
 			MoveToLeft ();
 		if (Input.GetKeyDown ("right"))
@@ -76,10 +76,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		//-----仰け反り時の行動-----
 
-		//重力分の力を毎フレーム追加
+		//重力分の力を毎フレーム追加する
 		moveDirection.y -= gravity * Time.deltaTime;
 
-		//移動実行
+		//移動を実行する
 		Vector3 globalDirection = transform.TransformDirection (moveDirection);
 		controller.Move (globalDirection * Time.deltaTime);
 
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour {
 		animator.SetBool ("Run", moveDirection.z > 0.0f);
 	}
 
-	//左のレーンに移動を開始
+	//1レーン左に移動する
 	public void MoveToLeft()
 	{
 		if (IsStan ())
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour {
 		stagesoundEffect.Move();
 	}
 
-	//右のレーンに移動を開始
+	//1レーン右に移動する
 	public void MoveToRight()
 	{
 		if (IsStan ())
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour {
 		stagesoundEffect.Move();
 	}
 
-	//ジャンプ
+	//ジャンプする
 	public void Jump()
 	{
 		if (IsStan ())
