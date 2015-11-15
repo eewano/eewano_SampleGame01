@@ -90,6 +90,6 @@ public class GameController : MonoBehaviour {
 		stagesoundEffect.GameIsOver ();
 
 		//ハイスコアを初期化する
-		PlayerPrefs.DeleteAll();
+		//PlayerPrefs.DeleteAll();
 	}
 }
