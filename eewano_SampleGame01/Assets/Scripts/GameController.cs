@@ -16,10 +16,18 @@ public class GameController : MonoBehaviour {
 	public Text scoreLabel;
 	public Text GameIsOver;
 	public Text TapToTitle;
+	public GameObject ButtonLeft;
+	public GameObject ButtonRight;
+	public GameObject ButtonJump;
 	StageSoundEffect stagesoundEffect;
+	private AudioSource stageBGM;
 
 	void Start()
 	{
+		//設定したサウンドを読み込む
+		stageBGM = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+		stagesoundEffect = GameObject.Find("StageSoundController").
+			GetComponent<StageSoundEffect>();
 		//ゲーム開始と同時にPlayingステートに移行する
 		Playing ();
 	}
@@ -49,15 +57,14 @@ public class GameController : MonoBehaviour {
 			break;
 
 		case State.GAMEOVER:
-			//マウスを左クリックしたらTitleシーンに戻る
-			if (Input.GetMouseButtonDown (0))
-				Application.LoadLevel("Title");
+			if(Input.GetMouseButtonDown(0))
+			Application.LoadLevel("Title");
 			break;
 		}
 	}
 
 
-	public void Playing()
+	void Playing()
 	{
 		state = State.PLAY;
 
@@ -65,9 +72,9 @@ public class GameController : MonoBehaviour {
 		GameIsOver.enabled = false;
 		TapToTitle.enabled = false;
 
-		//設定したサウンドを読み込む
-		stagesoundEffect = GameObject.Find("StageSoundController").
-			GetComponent<StageSoundEffect>();
+		ButtonLeft.gameObject.SetActive(true);
+		ButtonRight.gameObject.SetActive(true);
+		ButtonJump.gameObject.SetActive(true);
 	}
 
 	int CalcScore()
@@ -86,7 +93,12 @@ public class GameController : MonoBehaviour {
 		GameIsOver.enabled = true;
 		TapToTitle.enabled = true;
 
+		ButtonLeft.gameObject.SetActive(false);
+		ButtonRight.gameObject.SetActive(false);
+		ButtonJump.gameObject.SetActive(false);
+
 		//ステージBGMを停止しゲームオーバーBGMを再生する
+		Destroy(stageBGM);
 		stagesoundEffect.GameIsOver ();
 
 		//ハイスコアを初期化する
