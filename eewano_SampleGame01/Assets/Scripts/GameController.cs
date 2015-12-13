@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -58,7 +59,7 @@ public class GameController : MonoBehaviour {
 
 		case State.GAMEOVER:
 			if(Input.GetMouseButtonDown(0))
-			Application.LoadLevel("Title");
+				SceneManager.LoadScene("Title");
 			break;
 		}
 	}

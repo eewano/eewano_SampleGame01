@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DescriptionController : MonoBehaviour {
 
@@ -33,12 +34,12 @@ public class DescriptionController : MonoBehaviour {
 	
 	void GoToStage01()
 	{
-		Application.LoadLevel ("Stage01");
+		SceneManager.LoadScene ("Stage01");
 	}
 
 	void GoToStage02()
 	{
-		Application.LoadLevel ("Stage02");
+		SceneManager.LoadScene ("Stage02");
 	}
 	//-----ゲームをスタートさせる-----
 }

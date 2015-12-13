@@ -7,7 +7,7 @@ public class BallMove : MonoBehaviour {
 
 	public float amplitude;
 	public float speed;
-	public GameObject ballBrokenPrefab;
+	//public GameObject ballBrokenPrefab;
 
 	void Start()
 	{
@@ -23,6 +23,7 @@ public class BallMove : MonoBehaviour {
 		transform.localPosition = startPosition + new Vector3(x, 0, 0);
 	}
 
+	/*
 	void OnControllerColliderHit(ControllerColliderHit col)
 	{
 		if (col.gameObject.tag == "Player") {
@@ -32,4 +33,5 @@ public class BallMove : MonoBehaviour {
 			Destroy (gameObject);
 		}
 	}
+	*/
 }
