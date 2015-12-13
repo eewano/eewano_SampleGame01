@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour {
 	public float accelerationZ;
 	public float speedPlus;
 
+	bool JumpButton = false;
+
 	//-----ライフ取得用の関数-----
 	public int Life()
 	{
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown ("right"))
 			MoveToRight ();
 		if (Input.GetKeyDown ("space"))
+			JumpButton = true;
 			Jump ();
 
 		//-----仰け反り時の行動-----
@@ -115,12 +118,22 @@ public class PlayerController : MonoBehaviour {
 		stagesoundEffect.Move();
 	}
 
+	public void PushJumpDown()
+	{
+		JumpButton = true;
+	}
+
+	public void PushJumpUp()
+	{
+		JumpButton = false;
+	}
+
 	//ジャンプする
 	public void Jump()
 	{
 		if (IsStan ())
 			return;	//仰け反り時の入力キャンセル
-		if (controller.isGrounded) {
+		if (controller.isGrounded && JumpButton == true) {
 			moveDirection.y = speedJump;
 
 			//ジャンプトリガーを設定

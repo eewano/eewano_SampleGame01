@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -51,7 +52,7 @@ public class GameController : MonoBehaviour {
 		case State.GAMEOVER:
 			//マウスを左クリックしたらTitleシーンに戻る
 			if (Input.GetMouseButtonDown (0))
-				Application.LoadLevel("Title");
+				SceneManager.LoadScene("Title");
 			break;
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TitleController : MonoBehaviour {
 
@@ -26,7 +27,7 @@ public class TitleController : MonoBehaviour {
 	
 	void GoToStage()
 	{
-		Application.LoadLevel ("Stage");
+		SceneManager.LoadScene ("Stage");
 	}
 	//-----ゲームをスタートさせる-----
 
@@ -42,7 +43,7 @@ public class TitleController : MonoBehaviour {
 	
 	void GoToDescription()
 	{
-		Application.LoadLevel ("Description");
+		SceneManager.LoadScene ("Description");
 	}
 	//-----説明画面に飛ぶ-----
 }
