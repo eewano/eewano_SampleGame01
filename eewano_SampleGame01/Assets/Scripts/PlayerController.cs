@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour {
 			MoveToRight ();
 		if (Input.GetKeyDown ("space"))
 			JumpButton = true;
-		Jump ();
+			Jump ();
 
 		//-----仰け反り時の行動-----
 		if (IsStan ()) {
@@ -160,6 +160,20 @@ public class PlayerController : MonoBehaviour {
 
 			//ダウンサウンドを再生する
 			stagesoundEffect.Down();
+		}
+
+		if (hit.gameObject.tag == "Ball") {
+			//ライフを減らして仰け反り状態に移行
+			life--;
+			recoverTime = StunDuration;
+
+			//ダメージトリガーを設定
+			animator.SetTrigger ("Down");
+
+			//ダウンサウンドを再生する
+			stagesoundEffect.Down();
+
+			Destroy (hit.gameObject, 1.5f);
 		}
 	}
 }

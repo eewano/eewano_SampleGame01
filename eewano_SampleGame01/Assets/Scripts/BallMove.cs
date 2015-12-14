@@ -7,7 +7,6 @@ public class BallMove : MonoBehaviour {
 
 	public float amplitude;
 	public float speed;
-	//public GameObject ballBrokenPrefab;
 
 	void Start()
 	{
@@ -22,16 +21,4 @@ public class BallMove : MonoBehaviour {
 		//xを変位させたポジションに再設定する。
 		transform.localPosition = startPosition + new Vector3(x, 0, 0);
 	}
-
-	/*
-	void OnControllerColliderHit(ControllerColliderHit col)
-	{
-		if (col.gameObject.tag == "Player") {
-			Instantiate (ballBrokenPrefab, transform.position,
-				ballBrokenPrefab.transform.rotation);
-			//ボールを削除する。
-			Destroy (gameObject);
-		}
-	}
-	*/
 }
