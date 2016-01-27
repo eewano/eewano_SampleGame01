@@ -3,29 +3,29 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	const int MinLane = -4;
-	const int MaxLane = 4;
-	const float LaneWidth = 1.0f;
+	const int MinLane = -6;
+	const int MaxLane = 6;
+	const float LaneWidth = 0.75f;
 	const int DefaultLife = 1;	//プレイヤーのライフ
 	const float StunDuration = 1.0f;	//被ダメージ時の仰け反り時間
 
-	CharacterController controller;
-	Animator animator;
-	StageSoundEffect stagesoundEffect;
+	private CharacterController controller;
+	private Animator animator;
+	private StageSoundEffect stagesoundEffect;
 
 	Vector3 moveDirection = Vector3.zero;
-	int targetLane;
-	int life = DefaultLife;
-	float recoverTime = 0.0f;
+	private int targetLane;
+	private int life = DefaultLife;
+	private float recoverTime = 0.0f;
 
-	public float gravity;
-	public float speedZ;
-	public float speedX;
-	public float speedJump;
-	public float accelerationZ;
-	public float speedPlus;
+	[SerializeField] float gravity = 0;
+	[SerializeField] float speedZ = 0;
+	[SerializeField] float speedX = 0;
+	[SerializeField] float speedJump = 0;
+	[SerializeField] float accelerationZ = 0;
+	[SerializeField] float speedPlus = 0;
 
-	bool JumpButton = false;
+	private bool JumpButton = false;
 
 	//-----ライフ取得用の関数-----
 	public int Life()
@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour {
 
 	void Start()
 	{
-		//必要なコンポーネントを自動で取得する
 		controller = GetComponent<CharacterController> ();
 		animator = GetComponent<Animator>();
 		stagesoundEffect = GameObject.Find("StageSoundController").GetComponent<StageSoundEffect>();
@@ -94,27 +93,23 @@ public class PlayerController : MonoBehaviour {
 		animator.SetBool ("Run", moveDirection.z > 0.0f);
 	}
 
-	//1レーン左に移動する
 	public void MoveToLeft()
 	{
 		if (IsStan ())
 			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded && targetLane > MinLane)
 			targetLane--;
-
-		//移動サウンドを再生する
+		
 		stagesoundEffect.Move();
 	}
 
-	//1レーン右に移動する
 	public void MoveToRight()
 	{
 		if (IsStan ())
 			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded && targetLane < MaxLane)
 			targetLane++;
-
-		//移動サウンドを再生する
+		
 		stagesoundEffect.Move();
 	}
 
@@ -128,23 +123,17 @@ public class PlayerController : MonoBehaviour {
 		JumpButton = false;
 	}
 
-	//ジャンプする
 	public void Jump()
 	{
 		if (IsStan ())
 			return;	//仰け反り時の入力キャンセル
 		if (controller.isGrounded && JumpButton == true) {
 			moveDirection.y = speedJump;
-
-			//ジャンプトリガーを設定
 			animator.SetTrigger ("Jump");
-
-			//ジャンプサウンドを再生する
 			stagesoundEffect.Jump();
 		}
 	}
 
-	//CharacterControllerにコリジョンが生じた時の処理
 	void OnControllerColliderHit(ControllerColliderHit hit)
 	{
 		if (IsStan ())
@@ -154,11 +143,7 @@ public class PlayerController : MonoBehaviour {
 			//ライフを減らして仰け反り状態に移行
 			life--;
 			recoverTime = StunDuration;
-
-			//ダメージトリガーを設定
 			animator.SetTrigger ("Down");
-
-			//ダウンサウンドを再生する
 			stagesoundEffect.Down();
 		}
 
@@ -166,13 +151,8 @@ public class PlayerController : MonoBehaviour {
 			//ライフを減らして仰け反り状態に移行
 			life--;
 			recoverTime = StunDuration;
-
-			//ダメージトリガーを設定
 			animator.SetTrigger ("Down");
-
-			//ダウンサウンドを再生する
 			stagesoundEffect.Down();
-
 			Destroy (hit.gameObject, 1.5f);
 		}
 	}

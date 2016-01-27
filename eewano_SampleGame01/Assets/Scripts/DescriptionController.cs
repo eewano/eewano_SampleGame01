@@ -5,30 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class DescriptionController : MonoBehaviour {
 
-	DescriptionSoundEffect descriptionsoundEffect;
+	private DescriptionSoundEffect descriptionsoundEffect;
 
-	public void Start()
+	void Start()
 	{
 		descriptionsoundEffect = GameObject.Find("DescriptionSoundController").
 			GetComponent<DescriptionSoundEffect>();
 	}
 
-	//-----ゲームをスタートさせる-----
-	public void OnStage01ButtonClicked()
+	void OnStage01ButtonClicked()
 	{
-		//スタートサウンドを再生する
 		descriptionsoundEffect.GameStart();
-
-		//1秒後にステージシーンに切り替える
 		Invoke ("GoToStage01", 1.0f);
 	}
 
-	public void OnStage02ButtonClicked()
+	void OnStage02ButtonClicked()
 	{
-		//スタートサウンドを再生する
 		descriptionsoundEffect.GameStart();
-
-		//1秒後にステージシーンに切り替える
 		Invoke ("GoToStage02", 1.0f);
 	}
 	
@@ -41,5 +34,4 @@ public class DescriptionController : MonoBehaviour {
 	{
 		SceneManager.LoadScene ("Stage02");
 	}
-	//-----ゲームをスタートさせる-----
 }

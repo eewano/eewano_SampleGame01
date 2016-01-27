@@ -5,19 +5,17 @@ using System.Collections.Generic;
 public class AreaGenerator : MonoBehaviour {
 
 	const int AreaTipSize = 50;
+	private int currentTipIndex;
 
-	int currentTipIndex;
-
-	//ターゲットキャラクターの指定
-	public Transform character;
+	[SerializeField] Transform character = null;
 	//エリアチッププレファブ配列
-	public GameObject[] areaTips;
+	[SerializeField] GameObject[] areaTips = null;
 	//自動生成開始インデックス
-	public int startTipIndex;
+	[SerializeField] int startTipIndex = 0;
 	//生成先読み個数
-	public int preInstantiate;
+	[SerializeField] int preInstantiate = 0;
 	//生成済みエリアチップ保持リスト
-	public List<GameObject> generatedAreaList = new List<GameObject>();
+	[SerializeField] List<GameObject> generatedAreaList = new List<GameObject>();
 
 	void Start()
 	{
@@ -51,7 +49,7 @@ public class AreaGenerator : MonoBehaviour {
 		}
 
 		//エリア保持上限内になるまで古いエリアを削除する
-		while (generatedAreaList.Count > preInstantiate + 2)
+		while (generatedAreaList.Count > preInstantiate + 1)
 			DestroyOldestArea ();
 
 		currentTipIndex = toTipIndex;
@@ -65,9 +63,8 @@ public class AreaGenerator : MonoBehaviour {
 		GameObject areaObject = (GameObject)Instantiate (
 			                        areaTips [nextAreaTip],
 			                        new Vector3 (0, 0, tipIndex * AreaTipSize),
-			                        Quaternion.identity
-		                        );
-
+			                        Quaternion.identity);
+		
 		return areaObject;
 	}
 

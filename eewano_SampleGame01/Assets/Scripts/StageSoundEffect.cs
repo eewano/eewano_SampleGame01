@@ -30,7 +30,6 @@ public class StageSoundEffect : MonoBehaviour {
 	}
 
 	public void GameIsOver() {
-		//ステージ01サウンドを停止してゲームオーバーBGMを開始する
 		GameOverBGM.PlayOneShot (GameOverBGM.clip);
 	}
 }

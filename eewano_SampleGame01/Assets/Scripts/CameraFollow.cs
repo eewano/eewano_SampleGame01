@@ -5,8 +5,8 @@ public class CameraFollow : MonoBehaviour {
 
 	Vector3 diff;
 
-	public GameObject target;
-	public float followSpeed;
+	[SerializeField] GameObject target = null;
+	[SerializeField] float followSpeed = 0;
 
 	void Start()
 	{
@@ -20,7 +20,6 @@ public class CameraFollow : MonoBehaviour {
 		transform.position = Vector3.Lerp (
 			transform.position,
 			target.transform.position - diff,
-			Time.deltaTime * followSpeed
-		);
+			Time.deltaTime * followSpeed);
 	}
 }

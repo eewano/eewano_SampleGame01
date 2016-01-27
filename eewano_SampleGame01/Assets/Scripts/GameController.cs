@@ -13,29 +13,27 @@ public class GameController : MonoBehaviour {
 
 	State state;
 
-	public PlayerController player;
-	public Text scoreLabel;
-	public Text GameIsOver;
-	public Text TapToTitle;
-	public GameObject ButtonLeft;
-	public GameObject ButtonRight;
-	public GameObject ButtonJump;
-	StageSoundEffect stagesoundEffect;
+	[SerializeField] PlayerController player = null;
+	[SerializeField] Text scoreLabel = null;
+	[SerializeField] Text GameIsOver = null;
+	[SerializeField] Text TapToTitle = null;
+	[SerializeField] GameObject ButtonLeft = null;
+	[SerializeField] GameObject ButtonRight = null;
+	[SerializeField] GameObject ButtonJump = null;
+
+	private StageSoundEffect stagesoundEffect;
 	private AudioSource stageBGM;
 
 	void Start()
 	{
-		//設定したサウンドを読み込む
 		stageBGM = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 		stagesoundEffect = GameObject.Find("StageSoundController").
 			GetComponent<StageSoundEffect>();
-		//ゲーム開始と同時にPlayingステートに移行する
 		Playing ();
 	}
 
 	void Update()
 	{
-		//ゲームのステートごとにイベントを監視する
 		switch (state) {
 
 		case State.PLAY:
@@ -44,7 +42,6 @@ public class GameController : MonoBehaviour {
 			int score = CalcScore ();
 			scoreLabel.text = "Score : " + score + "pts";
 
-			//プレイヤーのライフが0になったらゲームオーバー
 			if (player.Life () <= 0){
 				enabled = false;
 
@@ -52,7 +49,6 @@ public class GameController : MonoBehaviour {
 				if (PlayerPrefs.GetInt ("Hiscore") < score) {
 					PlayerPrefs.SetInt ("Hiscore", score);
 				}
-				//0.5秒後にGameoverステートに移行する
 				Invoke("Gameover", 0.5f);
 			}
 			break;
@@ -64,45 +60,45 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	void AllFalse()
+	{
+		GameIsOver.enabled = false;
+		TapToTitle.enabled = false;
+
+		ButtonLeft.gameObject.SetActive(false);
+		ButtonRight.gameObject.SetActive(false);
+		ButtonJump.gameObject.SetActive(false);
+	}
 
 	void Playing()
 	{
 		state = State.PLAY;
-
-		//GameOverの文字を非表示
-		GameIsOver.enabled = false;
-		TapToTitle.enabled = false;
+		AllFalse ();
 
 		ButtonLeft.gameObject.SetActive(true);
 		ButtonRight.gameObject.SetActive(true);
 		ButtonJump.gameObject.SetActive(true);
 	}
 
-	int CalcScore()
-	{
-		//プレイヤーの走行距離をスコアとする
-		return(int)player.transform.position.z;
-	}
-
 	void Gameover()
 	{
 		state = State.GAMEOVER;
-
+		AllFalse ();
 		enabled = true;
 
-		//ゲームオーバー画面を表示する
 		GameIsOver.enabled = true;
 		TapToTitle.enabled = true;
 
-		ButtonLeft.gameObject.SetActive(false);
-		ButtonRight.gameObject.SetActive(false);
-		ButtonJump.gameObject.SetActive(false);
-
-		//ステージBGMを停止しゲームオーバーBGMを再生する
-		Destroy(stageBGM);
+		stageBGM.Stop();
 		stagesoundEffect.GameIsOver ();
 
 		//ハイスコアを初期化する
 		//PlayerPrefs.DeleteAll();
+	}
+
+	int CalcScore()
+	{
+		//プレイヤーの走行距離をスコアとする
+		return(int)player.transform.position.z;
 	}
 }

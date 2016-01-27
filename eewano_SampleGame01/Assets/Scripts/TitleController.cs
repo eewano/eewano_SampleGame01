@@ -5,32 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class TitleController : MonoBehaviour {
 
-	public Text hiScoreLabel;
-	TitleSoundEffect titlesoundEffect;
+	[SerializeField] Text hiScoreLabel = null;
+	private TitleSoundEffect titlesoundEffect;
 
-	public void Start()
+	void Start()
 	{
-		//ハイスコアを表示する
 		hiScoreLabel.text = "Hi-score : " + PlayerPrefs.GetInt("Hiscore") + "pts";
 		titlesoundEffect = GameObject.Find("TitleSoundController").GetComponent<TitleSoundEffect>();
 	}
 
-	//-----ゲームをスタートさせる-----
-	public void OnStage01ButtonClicked()
+	void OnStage01ButtonClicked()
 	{
-		//スタートサウンドを再生する
 		titlesoundEffect.GameStart();
-
-		//1秒後にステージシーンに切り替える
 		Invoke ("GoToStage01", 1.0f);
 	}
 
-	public void OnStage02ButtonClicked()
+	void OnStage02ButtonClicked()
 	{
-		//スタートサウンドを再生する
 		titlesoundEffect.GameStart();
-
-		//1秒後にステージシーンに切り替える
 		Invoke ("GoToStage02", 1.0f);
 	}
 	
@@ -43,15 +35,10 @@ public class TitleController : MonoBehaviour {
 	{
 		SceneManager.LoadScene ("Stage02");
 	}
-	//-----ゲームをスタートさせる-----
 
-	//-----説明画面に飛ぶ-----
-	public void OnDescriptionButtonClicked()
+	void OnDescriptionButtonClicked()
 	{
-		//説明サウンドを再生する
 		titlesoundEffect.Description();
-		
-		//1秒後に説明シーンに切り替える
 		Invoke ("GoToDescription", 1.0f);
 	}
 	
@@ -59,5 +46,4 @@ public class TitleController : MonoBehaviour {
 	{
 		SceneManager.LoadScene ("Description");
 	}
-	//-----説明画面に飛ぶ-----
 }
