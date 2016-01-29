@@ -5,6 +5,7 @@ public class CameraFollow : MonoBehaviour {
 
 	Vector3 diff;
 
+	[SerializeField] PlayerController player = null;
 	[SerializeField] GameObject target = null;
 	[SerializeField] float followSpeed = 0;
 
@@ -16,6 +17,9 @@ public class CameraFollow : MonoBehaviour {
 
 	void LateUpdate()
 	{
+		if (player.Life () <= 0) {
+			return;
+		}
 		//プレイヤーとの距離が離れている程、追従速度が上がる
 		transform.position = Vector3.Lerp (
 			transform.position,

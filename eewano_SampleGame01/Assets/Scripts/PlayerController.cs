@@ -112,6 +112,10 @@ public class PlayerController : MonoBehaviour {
 
 		//速度が０以上なら走っているフラグをtrueにする
 		animator.SetBool ("Run", moveDirection.z > 0.0f);
+
+		if (Life () <= 0) {
+			Invoke("Delete", 1.5f);
+		}
 	}
 
 	public void MoveLeft()
@@ -135,6 +139,11 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	public void Delete()
+	{
+		gameObject.SetActive (false);
+	}
+
 	void OnControllerColliderHit(ControllerColliderHit hit)
 	{
 		if (IsStan ())
@@ -155,6 +164,11 @@ public class PlayerController : MonoBehaviour {
 			animator.SetTrigger ("Down");
 			stagesoundEffect.Down();
 			Destroy (hit.gameObject, 1.5f);
+		}
+
+		if (hit.gameObject.tag == "Fall") {
+			life = 0;
+			Destroy (hit.gameObject);
 		}
 	}
 }
