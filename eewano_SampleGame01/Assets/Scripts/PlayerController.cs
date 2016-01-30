@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 	private bool LeftButton = false;
 	private bool RightButton = false;
 	private bool JumpButton = false;
+	public static bool Fall = false;
 
 	//-----ライフ取得用の関数-----
 	public int Life()
@@ -72,15 +73,16 @@ public class PlayerController : MonoBehaviour {
 		controller = GetComponent<CharacterController> ();
 		animator = GetComponent<Animator>();
 		stagesoundEffect = GameObject.Find("StageSoundController").GetComponent<StageSoundEffect>();
+		Fall = false;
 	}
 
 	void Update()
 	{
 		speedZ += Time.deltaTime * speedPlus;
 
-		if (LeftButton) {
+		if (LeftButton && controller.isGrounded) {
 			MoveLeft ();
-		} else if (RightButton) {
+		} else if (RightButton && controller.isGrounded) {
 			MoveRight ();
 		} else if (JumpButton) {
 			Jump ();
@@ -167,7 +169,9 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (hit.gameObject.tag == "Fall") {
+			Fall = true;
 			life = 0;
+			stagesoundEffect.Falling();
 			Destroy (hit.gameObject);
 		}
 	}
