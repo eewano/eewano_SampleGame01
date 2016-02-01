@@ -5,13 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class TitleController : MonoBehaviour {
 
-	[SerializeField] Text hiScoreLabel = null;
+	public static bool Stage01;
+	public static bool Stage02;
+
+	[SerializeField] Text hiScore01Label = null;
+	[SerializeField] Text hiScore02Label = null;
 	private TitleSoundEffect titlesoundEffect;
 
 	void Start()
 	{
-		hiScoreLabel.text = "Hi-score : " + PlayerPrefs.GetInt("Hiscore") + "pts";
+		hiScore01Label.text = "Normal : " + PlayerPrefs.GetInt("Hiscore01") + "pts";
+		hiScore02Label.text = "Hard : " + PlayerPrefs.GetInt("Hiscore02") + "pts";
 		titlesoundEffect = GameObject.Find("TitleSoundController").GetComponent<TitleSoundEffect>();
+		Stage01 = false;
+		Stage02 = false;
 	}
 
 	void OnStage01ButtonClicked()
@@ -28,11 +35,13 @@ public class TitleController : MonoBehaviour {
 	
 	void GoToStage01()
 	{
+		Stage01 = true;
 		SceneManager.LoadScene ("Stage01");
 	}
 
 	void GoToStage02()
 	{
+		Stage02 = true;
 		SceneManager.LoadScene ("Stage02");
 	}
 

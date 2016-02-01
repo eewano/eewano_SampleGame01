@@ -27,11 +27,13 @@ public class DescriptionController : MonoBehaviour {
 	
 	void GoToStage01()
 	{
+		TitleController.Stage01 = true;
 		SceneManager.LoadScene ("Stage01");
 	}
 
 	void GoToStage02()
 	{
+		TitleController.Stage02 = true;
 		SceneManager.LoadScene ("Stage02");
 	}
 }

@@ -14,7 +14,8 @@ public class GameController : MonoBehaviour {
 	State state;
 
 	[SerializeField] PlayerController player = null;
-	[SerializeField] Text scoreLabel = null;
+	[SerializeField] Text score01Label = null;
+	[SerializeField] Text score02Label = null;
 	[SerializeField] Text GameIsOver = null;
 	[SerializeField] Text TapToTitle = null;
 	[SerializeField] GameObject ButtonLeft = null;
@@ -39,17 +40,31 @@ public class GameController : MonoBehaviour {
 		case State.PLAY:
 
 			//スコアラベルを更新する
-			int score = CalcScore ();
-			scoreLabel.text = "Score : " + score + "pts";
+			if (TitleController.Stage01) {
+				int score01 = CalcScoreSt01 ();
+				score01Label.text = "Score : " + score01 + "pts";
+				if (player.Life () <= 0) {
+					enabled = false;
 
-			if (player.Life () <= 0){
-				enabled = false;
-
-				//ハイスコアを更新する
-				if (PlayerPrefs.GetInt ("Hiscore") < score) {
-					PlayerPrefs.SetInt ("Hiscore", score);
+					//NORMAL STAGE のハイスコアを更新する
+					if (PlayerPrefs.GetInt ("Hiscore01") < score01) {
+						PlayerPrefs.SetInt ("Hiscore01", score01);
+					}
+					Invoke ("Gameover", 0.5f);
 				}
-				Invoke("Gameover", 0.5f);
+
+			} else if(TitleController.Stage02) {
+				int score02 = CalcScoreSt02 ();
+				score02Label.text = "Score : " + score02 + "pts";
+				if (player.Life () <= 0) {
+					enabled = false;
+
+					//HARD STAGE のハイスコアを更新する
+					if (PlayerPrefs.GetInt ("Hiscore02") < score02) {
+						PlayerPrefs.SetInt ("Hiscore02", score02);
+					}
+					Invoke ("Gameover", 0.5f);
+				}
 			}
 			break;
 
@@ -64,6 +79,8 @@ public class GameController : MonoBehaviour {
 	{
 		GameIsOver.enabled = false;
 		TapToTitle.enabled = false;
+		score01Label.enabled = false;
+		score02Label.enabled = false;
 
 		ButtonLeft.gameObject.SetActive(false);
 		ButtonRight.gameObject.SetActive(false);
@@ -74,6 +91,12 @@ public class GameController : MonoBehaviour {
 	{
 		state = State.PLAY;
 		AllFalse ();
+
+		if (TitleController.Stage01) {
+			score01Label.enabled = true;
+		} else if (TitleController.Stage02) {
+			score02Label.enabled = true;
+		}
 
 		ButtonLeft.gameObject.SetActive(true);
 		ButtonRight.gameObject.SetActive(true);
@@ -86,6 +109,12 @@ public class GameController : MonoBehaviour {
 		AllFalse ();
 		enabled = true;
 
+		if (TitleController.Stage01) {
+			score01Label.enabled = true;
+		} else if (TitleController.Stage02) {
+			score02Label.enabled = true;
+		}
+
 		GameIsOver.enabled = true;
 		TapToTitle.enabled = true;
 
@@ -96,7 +125,13 @@ public class GameController : MonoBehaviour {
 		//PlayerPrefs.DeleteAll();
 	}
 
-	int CalcScore()
+	int CalcScoreSt01()
+	{
+		//プレイヤーの走行距離をスコアとする
+		return(int)player.transform.position.z;
+	}
+
+	int CalcScoreSt02()
 	{
 		//プレイヤーの走行距離をスコアとする
 		return(int)player.transform.position.z;
