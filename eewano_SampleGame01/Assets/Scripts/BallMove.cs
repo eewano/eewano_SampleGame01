@@ -5,8 +5,8 @@ public class BallMove : MonoBehaviour {
 
 	Vector3 startPosition;
 
-	[SerializeField] float amplitude = 0;
-	[SerializeField] float speed = 0;
+	[SerializeField] private float amplitude;
+	[SerializeField] private float speed;
 
 	void Start()
 	{

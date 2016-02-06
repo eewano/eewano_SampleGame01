@@ -7,13 +7,13 @@ public class AreaGenerator : MonoBehaviour {
 	const int AreaTipSize = 50;
 	private int currentTipIndex;
 
-	[SerializeField] Transform character = null;
+	[SerializeField] private Transform character;
 	//エリアチッププレファブ配列
-	[SerializeField] GameObject[] areaTips = null;
+	[SerializeField] private GameObject[] areaTips;
 	//自動生成開始インデックス
-	[SerializeField] int startTipIndex = 0;
+	[SerializeField] private int startTipIndex;
 	//生成先読み個数
-	[SerializeField] int preInstantiate = 0;
+	[SerializeField] private int preInstantiate;
 	//生成済みエリアチップ保持リスト
 	[SerializeField] List<GameObject> generatedAreaList = new List<GameObject>();
 
@@ -25,26 +25,26 @@ public class AreaGenerator : MonoBehaviour {
 
 	void Update()
 	{
-		//キャラクターの位置から現在のエリアチップのインデックスを計算する
+		//キャラクターの位置から現在のエリアのインデックスを計算する
 		int charaPositionIndex = (int)(character.position.z / AreaTipSize);
 
-		//次のエリアチップに入ったらエリアの更新処理を行なう
+		//次のエリアに入ったらエリアの更新処理を行なう
 		if (charaPositionIndex + preInstantiate > currentTipIndex) {
 			UpdateArea (charaPositionIndex + preInstantiate);
 		}
 	}
 
-	//指定のIndexまでのエリアチップを生成して、管理下に置く
+	//指定のIndexまでのエリアを生成して、管理下に置く
 	void UpdateArea(int toTipIndex)
 	{
 		if (toTipIndex <= currentTipIndex)
 			return;
 
-		//指定のエリアチップまでを作成
+		//指定のエリアまでを作成
 		for (int i = currentTipIndex + 1; i <= toTipIndex; i++) {
 			GameObject areaObject = GenerateArea (i);
 
-			//生成したエリアチップを管理リストに追加する
+			//生成したエリアを管理リストに追加する
 			generatedAreaList.Add (areaObject);
 		}
 

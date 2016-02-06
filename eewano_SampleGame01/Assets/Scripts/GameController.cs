@@ -13,14 +13,14 @@ public class GameController : MonoBehaviour {
 
 	State state;
 
-	[SerializeField] PlayerController player = null;
-	[SerializeField] Text score01Label = null;
-	[SerializeField] Text score02Label = null;
-	[SerializeField] Text GameIsOver = null;
-	[SerializeField] Text TapToTitle = null;
-	[SerializeField] GameObject ButtonLeft = null;
-	[SerializeField] GameObject ButtonRight = null;
-	[SerializeField] GameObject ButtonJump = null;
+	[SerializeField] private PlayerController player;
+	[SerializeField] private Text score01Label;
+	[SerializeField] private Text score02Label;
+	[SerializeField] private Text GameIsOver;
+	[SerializeField] private Text TapToTitle;
+	[SerializeField] private GameObject ButtonLeft;
+	[SerializeField] private GameObject ButtonRight;
+	[SerializeField] private GameObject ButtonJump;
 
 	private StageSoundEffect stagesoundEffect;
 	private AudioSource stageBGM;
@@ -75,6 +75,7 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	//-----まずはすべてのテキストやボタンを非表示にする-----
 	void AllFalse()
 	{
 		GameIsOver.enabled = false;
@@ -86,6 +87,7 @@ public class GameController : MonoBehaviour {
 		ButtonRight.gameObject.SetActive(false);
 		ButtonJump.gameObject.SetActive(false);
 	}
+	//----------
 
 	void Playing()
 	{
@@ -121,19 +123,17 @@ public class GameController : MonoBehaviour {
 		stageBGM.Stop();
 		stagesoundEffect.GameIsOver ();
 
-		//ハイスコアを初期化する
-		//PlayerPrefs.DeleteAll();
+		//PlayerPrefs.DeleteAll();	//ハイスコアを初期化する
 	}
 
 	int CalcScoreSt01()
 	{
-		//プレイヤーの走行距離をスコアとする
+		//普通ステージでのプレイヤーの走行距離をスコアとする
 		return(int)player.transform.position.z;
 	}
 
 	int CalcScoreSt02()
 	{
-		//プレイヤーの走行距離をスコアとする
 		return(int)player.transform.position.z;
 	}
 }

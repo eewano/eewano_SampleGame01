@@ -8,8 +8,8 @@ public class TitleController : MonoBehaviour {
 	public static bool Stage01;
 	public static bool Stage02;
 
-	[SerializeField] Text hiScore01Label = null;
-	[SerializeField] Text hiScore02Label = null;
+	[SerializeField] private Text hiScore01Label;
+	[SerializeField] private Text hiScore02Label;
 	private TitleSoundEffect titlesoundEffect;
 
 	void Start()

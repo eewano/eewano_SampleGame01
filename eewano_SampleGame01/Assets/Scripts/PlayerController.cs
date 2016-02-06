@@ -14,32 +14,31 @@ public class PlayerController : MonoBehaviour {
 	private int life = DefaultLife;
 	private float recoverTime = 0.0f;
 
-	[SerializeField] float gravity = 0;
-	[SerializeField] float speedX = 0;
-	[SerializeField] float speedZ = 0;
-	[SerializeField] float speedJump = 0;
-	[SerializeField] float accelerationZ = 0;
-	[SerializeField] float speedPlus = 0;
+	[SerializeField] private float gravity;
+	[SerializeField] private float speedX;
+	[SerializeField] private float speedZ;
+	[SerializeField] private float speedJump;
+	[SerializeField] private float accelerationZ;
+	[SerializeField] private float speedPlus;
 
+	public static bool Fall = false;
 	private bool LeftButton = false;
 	private bool RightButton = false;
 	private bool JumpButton = false;
-	public static bool Fall = false;
 
 	//-----ライフ取得用の関数-----
 	public int Life()
 	{
 		return life;
 	}
-	//-----ライフ取得用の関数-----
 
 	//-----仰け反り判定-----
 	public bool IsStan()
 	{
 		return recoverTime > 0.0f || life <= 0;
 	}
-	//-----仰け反り判定-----
 
+	//-----ボタン長押し用の判定
 	public void PushLeftDown()
 	{
 		LeftButton = true;
@@ -67,7 +66,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
-
 	void Start()
 	{
 		controller = GetComponent<CharacterController> ();
@@ -90,16 +88,15 @@ public class PlayerController : MonoBehaviour {
 
 		//-----仰け反り時の行動-----
 		if (IsStan ()) {
-			//動きを止め仰け反り状態からの復帰カウントを進める
+			//動きを止めて仰け反り状態からの復帰カウントを進める
 			moveDirection.x = 0.0f;
 			moveDirection.z = 0.0f;
 			recoverTime -= Time.deltaTime;
 		} else {
-			//徐々に加速しZ方向に前進させる
+			//徐々に加速しながら前進する
 			float acceleratedZ = moveDirection.z + (accelerationZ * Time.deltaTime);
 			moveDirection.z = Mathf.Clamp (acceleratedZ, 0, speedZ);
 		}
-		//-----仰け反り時の行動-----
 
 		//重力分の力を毎フレーム追加する
 		moveDirection.y -= gravity * Time.deltaTime;
@@ -112,7 +109,7 @@ public class PlayerController : MonoBehaviour {
 		if (controller.isGrounded)
 			moveDirection.y = 0;
 
-		//速度が０以上なら走っているフラグをtrueにする
+		//速度が０以上なら走るアニメーションにする
 		animator.SetBool ("Run", moveDirection.z > 0.0f);
 
 		if (Life () <= 0) {
@@ -120,6 +117,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	//-----横移動及びジャンプ-----
 	public void MoveLeft()
 	{
 		this.transform.position += this.transform.right * Time.deltaTime * speedX * -1;
@@ -140,7 +138,9 @@ public class PlayerController : MonoBehaviour {
 			stagesoundEffect.Jump();
 		}
 	}
+	//----------
 
+	//-----ライフが0になったらプレイヤーを消去する
 	public void Delete()
 	{
 		gameObject.SetActive (false);
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (hit.gameObject.tag == "Obstacle") {
 			//ライフを減らして仰け反り状態に移行
-			life--;
+			life --;
 			recoverTime = StunDuration;
 			animator.SetTrigger ("Down");
 			stagesoundEffect.Down();
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (hit.gameObject.tag == "Ball") {
 			//ライフを減らして仰け反り状態に移行
-			life--;
+			life --;
 			recoverTime = StunDuration;
 			animator.SetTrigger ("Down");
 			stagesoundEffect.Down();
