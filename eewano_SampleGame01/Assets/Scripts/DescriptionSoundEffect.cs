@@ -3,14 +3,14 @@ using System.Collections;
 
 public class DescriptionSoundEffect : MonoBehaviour {
 	
-	private AudioSource StartSound;
+	private AudioSource startSound;
 
 	void Start()
 	{
-		StartSound = GetComponent<AudioSource> ();
+		startSound = GetComponent<AudioSource> ();
 	}
 
 	public void GameStart() {
-		StartSound.PlayOneShot (StartSound.clip);
+		startSound.PlayOneShot (startSound.clip);
 	}
 }

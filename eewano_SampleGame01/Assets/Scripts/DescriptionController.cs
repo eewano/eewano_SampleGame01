@@ -5,23 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class DescriptionController : MonoBehaviour {
 
-	private DescriptionSoundEffect descriptionsoundEffect;
+	private DescriptionSoundEffect descriptionSoundEffect;
 
 	void Start()
 	{
-		descriptionsoundEffect = GameObject.Find("DescriptionSoundController").
+		descriptionSoundEffect = GameObject.Find("DescriptionSoundEffect").
 			GetComponent<DescriptionSoundEffect>();
 	}
 
 	void OnStage01ButtonClicked()
 	{
-		descriptionsoundEffect.GameStart();
+		descriptionSoundEffect.GameStart();
 		Invoke ("GoToStage01", 1.0f);
 	}
-
 	void OnStage02ButtonClicked()
 	{
-		descriptionsoundEffect.GameStart();
+		descriptionSoundEffect.GameStart();
 		Invoke ("GoToStage02", 1.0f);
 	}
 	
@@ -30,7 +29,6 @@ public class DescriptionController : MonoBehaviour {
 		TitleController.Stage01 = true;
 		SceneManager.LoadScene ("Stage01");
 	}
-
 	void GoToStage02()
 	{
 		TitleController.Stage02 = true;

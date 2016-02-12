@@ -5,9 +5,9 @@ public class CameraFollow : MonoBehaviour {
 
 	Vector3 diff;
 
-	[SerializeField] PlayerController player = null;
-	[SerializeField] GameObject target = null;
-	[SerializeField] float followSpeed = 0;
+	[SerializeField] private PlayerController player;
+	[SerializeField] private GameObject target;
+	[SerializeField] private float followSpeed;
 
 	void Start()
 	{

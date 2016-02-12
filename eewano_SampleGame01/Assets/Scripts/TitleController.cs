@@ -10,27 +10,31 @@ public class TitleController : MonoBehaviour {
 
 	[SerializeField] private Text hiScore01Label;
 	[SerializeField] private Text hiScore02Label;
-	private TitleSoundEffect titlesoundEffect;
+	private TitleSoundEffect titleSoundEffect;
 
 	void Start()
 	{
 		hiScore01Label.text = "Normal : " + PlayerPrefs.GetInt("Hiscore01") + "pts";
 		hiScore02Label.text = "Hard : " + PlayerPrefs.GetInt("Hiscore02") + "pts";
-		titlesoundEffect = GameObject.Find("TitleSoundController").GetComponent<TitleSoundEffect>();
+		titleSoundEffect = GameObject.Find("TitleSoundEffect").GetComponent<TitleSoundEffect>();
 		Stage01 = false;
 		Stage02 = false;
 	}
 
 	void OnStage01ButtonClicked()
 	{
-		titlesoundEffect.GameStart();
+		titleSoundEffect.GameStart();
 		Invoke ("GoToStage01", 1.0f);
 	}
-
 	void OnStage02ButtonClicked()
 	{
-		titlesoundEffect.GameStart();
+		titleSoundEffect.GameStart();
 		Invoke ("GoToStage02", 1.0f);
+	}
+	void OnDescriptionButtonClicked()
+	{
+		titleSoundEffect.Description();
+		Invoke ("GoToDescription", 1.0f);
 	}
 	
 	void GoToStage01()
@@ -38,19 +42,11 @@ public class TitleController : MonoBehaviour {
 		Stage01 = true;
 		SceneManager.LoadScene ("Stage01");
 	}
-
 	void GoToStage02()
 	{
 		Stage02 = true;
 		SceneManager.LoadScene ("Stage02");
 	}
-
-	void OnDescriptionButtonClicked()
-	{
-		titlesoundEffect.Description();
-		Invoke ("GoToDescription", 1.0f);
-	}
-	
 	void GoToDescription()
 	{
 		SceneManager.LoadScene ("Description");

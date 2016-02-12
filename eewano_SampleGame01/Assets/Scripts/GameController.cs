@@ -5,13 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
-	enum State
-	{
-		PLAY,
-		GAMEOVER
-	}
-
-	State state;
+	enum State {PLAYING, GAMEOVER}
+	private State state;
 
 	[SerializeField] private PlayerController player;
 	[SerializeField] private Text score01Label;
@@ -22,14 +17,14 @@ public class GameController : MonoBehaviour {
 	[SerializeField] private GameObject ButtonRight;
 	[SerializeField] private GameObject ButtonJump;
 
-	private StageSoundEffect stagesoundEffect;
-	private AudioSource stageBGM;
+	private AudioSource stageBGM;	//各ステージのBGM
+	private StageSoundEffect stageSoundEffect;	//各種効果音
 
 	void Start()
 	{
 		stageBGM = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-		stagesoundEffect = GameObject.Find("StageSoundController").
-			GetComponent<StageSoundEffect>();
+		stageSoundEffect = GameObject.Find("StageSoundEffect").GetComponent<StageSoundEffect>();
+		
 		Playing ();
 	}
 
@@ -37,35 +32,37 @@ public class GameController : MonoBehaviour {
 	{
 		switch (state) {
 
-		case State.PLAY:
-
-			//スコアラベルを更新する
+		case State.PLAYING:
+			//-----NORMAL STAGE のスコアラベルを更新する-----
 			if (TitleController.Stage01) {
-				int score01 = CalcScoreSt01 ();
+				int score01 = CalcScoreStage01 ();
 				score01Label.text = "Score : " + score01 + "pts";
 				if (player.Life () <= 0) {
+					//ここで1度GameController.csを無効にしないと、ゲームオーバーBGMが重複し続けてしまう
 					enabled = false;
-
-					//NORMAL STAGE のハイスコアを更新する
 					if (PlayerPrefs.GetInt ("Hiscore01") < score01) {
-						PlayerPrefs.SetInt ("Hiscore01", score01);
+						PlayerPrefs.SetInt ("Hiscore01", score01);	//NORMAL STAGE のハイスコアを更新する
 					}
-					Invoke ("Gameover", 0.5f);
-				}
-
-			} else if(TitleController.Stage02) {
-				int score02 = CalcScoreSt02 ();
-				score02Label.text = "Score : " + score02 + "pts";
-				if (player.Life () <= 0) {
-					enabled = false;
-
-					//HARD STAGE のハイスコアを更新する
-					if (PlayerPrefs.GetInt ("Hiscore02") < score02) {
-						PlayerPrefs.SetInt ("Hiscore02", score02);
-					}
-					Invoke ("Gameover", 0.5f);
+					Invoke ("GameOver", 0.5f);
 				}
 			}
+			//----------
+
+			//-----HARD STAGE のスコアラベルを更新する-----
+			else if(TitleController.Stage02) {
+				int score02 = CalcScoreStage02 ();
+				score02Label.text = "Score : " + score02 + "pts";
+				if (player.Life () <= 0) {
+					//ここで1度GameController.csを無効にしないと、ゲームオーバーBGMが重複し続けてしまう
+					enabled = false;
+					if (PlayerPrefs.GetInt ("Hiscore02") < score02) {
+						PlayerPrefs.SetInt ("Hiscore02", score02);	//HARD STAGE のハイスコアを更新する
+					}
+					Invoke ("GameOver", 0.5f);
+				}
+			}
+			//----------
+
 			break;
 
 		case State.GAMEOVER:
@@ -91,7 +88,7 @@ public class GameController : MonoBehaviour {
 
 	void Playing()
 	{
-		state = State.PLAY;
+		state = State.PLAYING;
 		AllFalse ();
 
 		if (TitleController.Stage01) {
@@ -105,10 +102,12 @@ public class GameController : MonoBehaviour {
 		ButtonJump.gameObject.SetActive(true);
 	}
 
-	void Gameover()
+	void GameOver()
 	{
 		state = State.GAMEOVER;
 		AllFalse ();
+		//PLAYINGステートでGameController.csを1度無効にしているので、
+		//ゲームオーバー時に再度有効にしている
 		enabled = true;
 
 		if (TitleController.Stage01) {
@@ -121,19 +120,20 @@ public class GameController : MonoBehaviour {
 		TapToTitle.enabled = true;
 
 		stageBGM.Stop();
-		stagesoundEffect.GameIsOver ();
+		stageSoundEffect.GameIsOver ();
 
 		//PlayerPrefs.DeleteAll();	//ハイスコアを初期化する
 	}
 
-	int CalcScoreSt01()
+	//-----プレイヤーの走行距離をスコアとする-----
+	int CalcScoreStage01()
 	{
-		//普通ステージでのプレイヤーの走行距離をスコアとする
-		return(int)player.transform.position.z;
+		return(int)player.transform.position.z;	//NORMAL STAGE
 	}
 
-	int CalcScoreSt02()
+	int CalcScoreStage02()
 	{
-		return(int)player.transform.position.z;
+		return(int)player.transform.position.z;	//HARD STAGE
 	}
+	//----------
 }

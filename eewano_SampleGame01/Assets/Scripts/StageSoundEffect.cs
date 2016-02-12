@@ -3,39 +3,39 @@ using System.Collections;
 
 public class StageSoundEffect : MonoBehaviour {
 
-	private AudioSource JumpSound;
-	private AudioSource MoveSound;
-	private AudioSource DownSound;
-	private AudioSource FallSound;
-	private AudioSource GameOverBGM;
+	private AudioSource jumpSound;
+	private AudioSource moveSound;
+	private AudioSource downSound;
+	private AudioSource fallSound;
+	private AudioSource gameOverBGM;
 
 	void Start()
 	{
 		AudioSource[] audioSources = GetComponents<AudioSource> ();
-		JumpSound = audioSources [0];
-		MoveSound = audioSources [1];
-		DownSound = audioSources [2];
-		FallSound = audioSources [3];
-		GameOverBGM = audioSources [4];
+		jumpSound = audioSources [0];
+		moveSound = audioSources [1];
+		downSound = audioSources [2];
+		fallSound = audioSources [3];
+		gameOverBGM = audioSources [4];
 	}
 
 	public void Jump() {
-		JumpSound.PlayOneShot (JumpSound.clip);
+		jumpSound.PlayOneShot (jumpSound.clip);
 	}
 
 	public void Move() {
-		MoveSound.PlayOneShot (MoveSound.clip);
+		moveSound.PlayOneShot (moveSound.clip);
 	}
 
 	public void Down() {
-		DownSound.PlayOneShot (DownSound.clip);
+		downSound.PlayOneShot (downSound.clip);
 	}
 
 	public void Falling() {
-		FallSound.PlayOneShot (FallSound.clip);
+		fallSound.PlayOneShot (fallSound.clip);
 	}
 
 	public void GameIsOver() {
-		GameOverBGM.PlayOneShot (GameOverBGM.clip);
+		gameOverBGM.PlayOneShot (gameOverBGM.clip);
 	}
 }
