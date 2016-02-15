@@ -19,11 +19,11 @@ public class PlayerController : MonoBehaviour {
 	private int life = DefaultLife;
 	private float recoverTime = 0.0f;
 
+	[SerializeField] private float accelerationZ;
 	[SerializeField] private float gravity;
 	[SerializeField] private float speedX;
 	[SerializeField] private float speedZ;
 	[SerializeField] private float speedJump;
-	[SerializeField] private float accelerationZ;
 	[SerializeField] private float speedPlus;
 
 	//-----ライフ取得用の関数-----

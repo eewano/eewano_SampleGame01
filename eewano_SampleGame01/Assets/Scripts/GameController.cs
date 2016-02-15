@@ -9,16 +9,16 @@ public class GameController : MonoBehaviour {
 	private State state;
 
 	[SerializeField] private PlayerController player;
+	[SerializeField] private Text GameIsOver;
 	[SerializeField] private Text score01Label;
 	[SerializeField] private Text score02Label;
-	[SerializeField] private Text GameIsOver;
 	[SerializeField] private Text TapToTitle;
 	[SerializeField] private GameObject ButtonLeft;
 	[SerializeField] private GameObject ButtonRight;
 	[SerializeField] private GameObject ButtonJump;
 
-	private AudioSource stageBGM;	//各ステージのBGM
-	private StageSoundEffect stageSoundEffect;	//各種効果音
+	private AudioSource stageBGM;
+	private StageSoundEffect stageSoundEffect;
 
 	void Start()
 	{
@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour {
 				score01Label.text = "Score : " + score01 + "pts";
 				if (player.Life () <= 0) {
 					//ここで1度GameController.csを無効にしないと、ゲームオーバーBGMが重複し続けてしまう
+					//理由は現時点で解決出来ていない
 					enabled = false;
 					if (PlayerPrefs.GetInt ("Hiscore01") < score01) {
 						PlayerPrefs.SetInt ("Hiscore01", score01);	//NORMAL STAGE のハイスコアを更新する
@@ -54,6 +55,7 @@ public class GameController : MonoBehaviour {
 				score02Label.text = "Score : " + score02 + "pts";
 				if (player.Life () <= 0) {
 					//ここで1度GameController.csを無効にしないと、ゲームオーバーBGMが重複し続けてしまう
+					//理由は現時点で解決出来ていない
 					enabled = false;
 					if (PlayerPrefs.GetInt ("Hiscore02") < score02) {
 						PlayerPrefs.SetInt ("Hiscore02", score02);	//HARD STAGE のハイスコアを更新する
@@ -72,13 +74,13 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	//-----まずはすべてのテキストやボタンを非表示にする-----
+	//-----まずはすべてのテキストやボタンを非表示にしてから、各ステートで表示させたいものをtrueにしている-----
 	void AllFalse()
 	{
 		GameIsOver.enabled = false;
-		TapToTitle.enabled = false;
 		score01Label.enabled = false;
 		score02Label.enabled = false;
+		TapToTitle.enabled = false;
 
 		ButtonLeft.gameObject.SetActive(false);
 		ButtonRight.gameObject.SetActive(false);

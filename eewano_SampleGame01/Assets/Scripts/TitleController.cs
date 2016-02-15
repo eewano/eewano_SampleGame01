@@ -21,6 +21,11 @@ public class TitleController : MonoBehaviour {
 		Stage02 = false;
 	}
 
+	void OnDescriptionButtonClicked()
+	{
+		titleSoundEffect.Description();
+		Invoke ("GoToDescription", 1.0f);
+	}
 	void OnStage01ButtonClicked()
 	{
 		titleSoundEffect.GameStart();
@@ -31,12 +36,11 @@ public class TitleController : MonoBehaviour {
 		titleSoundEffect.GameStart();
 		Invoke ("GoToStage02", 1.0f);
 	}
-	void OnDescriptionButtonClicked()
+
+	void GoToDescription()
 	{
-		titleSoundEffect.Description();
-		Invoke ("GoToDescription", 1.0f);
+		SceneManager.LoadScene ("Description");
 	}
-	
 	void GoToStage01()
 	{
 		Stage01 = true;
@@ -46,9 +50,5 @@ public class TitleController : MonoBehaviour {
 	{
 		Stage02 = true;
 		SceneManager.LoadScene ("Stage02");
-	}
-	void GoToDescription()
-	{
-		SceneManager.LoadScene ("Description");
 	}
 }

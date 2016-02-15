@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AreaGenerator : MonoBehaviour {
 
-	const int AreaTipSize = 50;
+	const int AreaTipSize = 50;	//各エリアのZ軸の長さを50に統一
 	private int currentTipIndex;
 
 	[SerializeField] private Transform character;
